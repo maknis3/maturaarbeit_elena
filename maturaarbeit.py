@@ -13,6 +13,7 @@ def adjusted_winner(valuation_A, valuation_B):
     points_A = sum(valuation_A[i] * allocation_A[i] for i in range(n))
     points_B = sum(valuation_B[i] * allocation_B[i] for i in range(n))
     
+    # split the object with the lowest valuation discrapency between a and b! not the first that belongs to a!
     if points_A != points_B:
         for i in range(n - 1, -1, -1):
             if allocation_A[i] == 1 and valuation_A[i] / valuation_B[i] >= 1:
