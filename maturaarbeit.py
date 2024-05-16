@@ -14,13 +14,21 @@ def adjusted_winner(valuation_A, valuation_B):
     points_B = sum(valuation_B[i] * allocation_B[i] for i in range(n))
     
     # split the object with the lowest valuation discrapency between a and b! not the first that belongs to a!
-    if points_A != points_B:
-        for i in range(n - 1, -1, -1):
-            if allocation_A[i] == 1 and valuation_A[i] / valuation_B[i] >= 1:
-                p = (points_B - points_A + valuation_A[i]) / (valuation_A[i] + valuation_B[i])
-                allocation_A[i] = p
-                allocation_B[i] = 1 - p
-                break
+    if points_A == points_B:
+        return allocation_A, allocation_B
+
+    split_in_favour_of_A = points_A > points_B
+    good_to_split = None
+    best_ratio = float('inf')
+
+    for i in range(0, n):
+        if allocation_A[i] == (1 if split_in_favour_of_A else 0) and valuation_A[i] / valuation_B[i] < best_ratio:
+            good_to_split = i
+            best_ratio = valuation_A[i] / valuation_B[i]
+
+    p = (points_B - points_A + valuation_A[good_to_split]) / (valuation_A[good_to_split] + valuation_B[good_to_split])
+    allocation_A[good_to_split] = p * -1
+    allocation_B[good_to_split] = 1 + p
 
     return allocation_A, allocation_B
 
