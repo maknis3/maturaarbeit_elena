@@ -26,9 +26,9 @@ def adjusted_winner(valuation_A, valuation_B):
             good_to_split = i
             best_ratio = valuation_A[i] / valuation_B[i]
 
-    p = (points_B - points_A + valuation_A[good_to_split]) / (valuation_A[good_to_split] + valuation_B[good_to_split])
-    allocation_A[good_to_split] = p * -1
-    allocation_B[good_to_split] = 1 + p
+    p = (1 if split_in_favour_of_A else -1) / (valuation_A[good_to_split] + valuation_B[good_to_split])
+    allocation_A[good_to_split] = p
+    allocation_B[good_to_split] = 1 - p
 
     return allocation_A, allocation_B
 
